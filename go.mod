@@ -1,3 +1,3 @@
-module go-raytracing
+module raytracing
 
 go 1.20
