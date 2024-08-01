@@ -11,6 +11,10 @@ func (ray *Ray) At(t float32) *Vec3 {
 }
 
 func RayColor(ray *Ray) *Color {
+	if hitSphere(New(0, 0, 1), 0.5, ray) {
+		return NewColor(1, 0, 0)
+	}
+
 	var unitDir *Vec3 = UnitVector(ray.Dir)
 	// -1 < y < 1 but we need 0 <= a <= 1
 	a := 0.5 * (unitDir.y() + 1.0)

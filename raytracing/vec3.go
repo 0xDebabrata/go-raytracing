@@ -61,3 +61,7 @@ func UnitVector(v *Vec3) *Vec3 {
 	magnitude := float32(math.Sqrt(float64(v.x()*v.x() + v.y()*v.y() + v.z()*v.z())))
 	return ScalarMultiply(1.0/magnitude, v)
 }
+
+func Dot(a *Vec3, b *Vec3) float32 {
+	return a.x()*b.x() + a.y()*b.y() + a.z()*b.z()
+}
