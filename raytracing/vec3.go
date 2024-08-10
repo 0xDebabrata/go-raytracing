@@ -32,6 +32,10 @@ func (v *Vec3) z() float32 {
 	return v.e[2]
 }
 
+func (v *Vec3) LengthSquared() float32 {
+	return v.e[0]*v.e[0] + v.e[1]*v.e[1] + v.e[2]*v.e[2]
+}
+
 func (c *Color) WriteColor() {
 	rByte := int(255 * c.x())
 	gByte := int(255 * c.y())

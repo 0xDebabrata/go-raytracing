@@ -4,9 +4,9 @@ import "math"
 
 func hitSphere(center *Point, radius float32, ray *Ray) float32 {
 	var oc *Vec3 = Add(center, ScalarMultiply(-1, ray.Origin))
-	a := Dot(ray.Dir, ray.Dir)
+	a := ray.Dir.LengthSquared()
 	b := -2 * Dot(ray.Dir, oc)
-	c := Dot(oc, oc) - radius*radius
+	c := oc.LengthSquared() - radius*radius
 	discriminant := b*b - 4*a*c
 
 	if discriminant < 0 {
