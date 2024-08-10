@@ -10,6 +10,7 @@ type Vec3 struct {
 }
 
 type Color = Vec3
+
 type Point = Vec3
 
 func New(x float32, y float32, z float32) *Vec3 {

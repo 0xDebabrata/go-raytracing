@@ -9,7 +9,7 @@ import (
 func main() {
 	var (
 		aspectRatio float32 = 16.0 / 9.0
-		imgWidth            = 400
+		imgWidth            = 600
 		imgHeight           = int(float32(imgWidth) / aspectRatio)
 	)
 	// Ensure height is at least 1
