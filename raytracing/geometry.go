@@ -42,15 +42,21 @@ func (s *Sphere) hit(ray *Ray, tMin float32, tMax float32, rec *HitRecord) bool 
 	rec.Normal = Add(rec.P, ScalarMultiply(-1, s.center))
 	// Normalise normal vector
 	radiusInverse := 1 / s.radius
-	rec.Normal = ScalarMultiply(radiusInverse, rec.Normal)
+	normalisedOutwardNormal := ScalarMultiply(radiusInverse, rec.Normal)
+	rec.setFaceNormal(ray, normalisedOutwardNormal)
 
 	return true
 }
 
-func (hr *HitRecord) setFaceNormal(ray *Ray, outwardNormal *Vec3) {
-	if Dot(ray.Dir, outwardNormal) < 0 {
+// setFaceNormal sets information regarding to whether the ray hits the object
+// from outside or inside.
+// HitRecord normal is set to always point against the incident ray
+func (hr *HitRecord) setFaceNormal(ray *Ray, normalisedOutwardNormal *Vec3) {
+	if Dot(ray.Dir, normalisedOutwardNormal) < 0 {
 		hr.FrontFace = true
+		hr.Normal = normalisedOutwardNormal
 	} else {
 		hr.FrontFace = false
+		hr.Normal = ScalarMultiply(-1, normalisedOutwardNormal)
 	}
 }
