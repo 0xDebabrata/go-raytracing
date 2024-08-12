@@ -3,9 +3,10 @@ package raytracing
 import "math"
 
 type HitRecord struct {
-	P      *Point  // Point at which ray hits the object
-	Normal *Vec3   // Normal to the surface of the object at the point of intersection
-	T      float32 // Value of t in the equation P = origin + dir.t
+	P         *Point  // Point at which ray hits the object
+	Normal    *Vec3   // Normal to the surface of the object at the point of intersection
+	T         float32 // Value of t in the equation P = origin + dir.t
+	FrontFace bool
 }
 
 type Hittable interface {
@@ -44,4 +45,12 @@ func (s *Sphere) hit(ray *Ray, tMin float32, tMax float32, rec *HitRecord) bool 
 	rec.Normal = ScalarMultiply(radiusInverse, rec.Normal)
 
 	return true
+}
+
+func (hr *HitRecord) setFaceNormal(ray *Ray, outwardNormal *Vec3) {
+	if Dot(ray.Dir, outwardNormal) < 0 {
+		hr.FrontFace = true
+	} else {
+		hr.FrontFace = false
+	}
 }
