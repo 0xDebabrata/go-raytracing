@@ -10,11 +10,11 @@ func (ray *Ray) At(t float32) *Vec3 {
 	return Add(ray.Origin, direction)
 }
 
-func RayColor(ray *Ray) *Color {
-	var sphereCenter *Point = New(0, 0, -1)
-	t := hitSphere(sphereCenter, 0.5, ray)
-	if t > 0 {
-		var normal *Vec3 = UnitVector(Add(ray.At(t), ScalarMultiply(-1, sphereCenter)))
+func RayColor(ray *Ray, world Hittable) *Color {
+	var rec HitRecord
+
+	if world.hit(ray, 0, float32(Infinity), &rec) {
+		var normal *Vec3 = rec.Normal
 		return NewColor(0.5*(normal.x()+1), 0.5*(normal.y()+1), 0.5*(normal.z()+1))
 	}
 

@@ -18,6 +18,13 @@ type Sphere struct {
 	radius float32
 }
 
+func InitSphere(coords [3]float32, r float32) *Sphere {
+	var s Sphere
+	s.center = New(coords[0], coords[1], coords[2])
+	s.radius = r
+	return &s
+}
+
 func (s *Sphere) hit(ray *Ray, tMin float32, tMax float32, rec *HitRecord) bool {
 	var oc *Vec3 = Add(s.center, ScalarMultiply(-1, ray.Origin))
 	a := ray.Dir.LengthSquared()

@@ -24,6 +24,9 @@ func main() {
 		viewportWidth                    = viewportHeight * (float32(imgWidth) / float32(imgHeight))
 		cameraCenter   *raytracing.Point = raytracing.New(0, 0, 0)
 
+		// World
+		world raytracing.HittableList
+
 		// Viewport
 		// Right-handed coordinate system
 		viewportU   = raytracing.New(viewportWidth, 0, 0)
@@ -46,10 +49,13 @@ func main() {
 		)
 	)
 
+	world.Add(raytracing.InitSphere([3]float32{0, 0, -1}, 0.5))
+	world.Add(raytracing.InitSphere([3]float32{0, -100.5, -1}, 100))
+
 	fmt.Printf("P3\n%d %d\n255\n", imgWidth, imgHeight)
 
 	for i := 0; i < imgHeight; i++ {
-		log.Printf("Scanlines remaining: %d\n", imgHeight-i)
+		// log.Printf("Scanlines remaining: %d\n", imgHeight-i)
 		for j := 0; j < imgWidth; j++ {
 			var pixelCenter *raytracing.Point = raytracing.Add(
 				pixel00Loc,
@@ -65,7 +71,7 @@ func main() {
 				Dir:    rayDir,
 			}
 
-			var pixelColor *raytracing.Color = raytracing.RayColor(&ray)
+			var pixelColor *raytracing.Color = raytracing.RayColor(&ray, &world)
 			pixelColor.WriteColor()
 		}
 	}
