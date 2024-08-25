@@ -49,7 +49,7 @@ func main() {
 	fmt.Printf("P3\n%d %d\n255\n", imgWidth, imgHeight)
 
 	for i := 0; i < imgHeight; i++ {
-		log.Printf("Scanlines remaining: %d\n", imgHeight-i)
+		// log.Printf("Scanlines remaining: %d\n", imgHeight-i)
 		for j := 0; j < imgWidth; j++ {
 			var pixelCenter *raytracing.Point = raytracing.Add(
 				pixel00Loc,

@@ -1,6 +1,9 @@
 package raytracing
 
-import "math"
+import (
+	"log"
+	"math"
+)
 
 type HitRecord struct {
 	P         *Point  // Point at which ray hits the object
@@ -40,10 +43,21 @@ func (s *Sphere) hit(ray *Ray, tMin float32, tMax float32, rec *HitRecord) bool 
 	rec.T = t
 	rec.P = ray.At(rec.T)
 	rec.Normal = Add(rec.P, ScalarMultiply(-1, s.center))
+	log.Printf("------")
+	log.Printf("Radius: %v\n", s.radius)
+	log.Printf("Center: %v\n", s.center)
+	log.Printf("Normal: %v\n", rec.Normal)
+	log.Printf("Radius^2: %v\n", rec.P.x()*rec.P.x()+rec.P.y()*rec.P.y()+(s.center.z()-rec.P.z())*(s.center.z()-rec.P.z()))
+	log.Printf("Unit Normal: %v\n", UnitVector(rec.Normal))
+	log.Printf("Point: %v\n", rec.P)
 	// Normalise normal vector
-	radiusInverse := 1 / s.radius
+	magnitude := float32(math.Sqrt(float64(rec.Normal.x()*rec.Normal.x() + rec.Normal.y()*rec.Normal.y() + rec.Normal.z()*rec.Normal.z())))
+	log.Printf("Magnitude: %v\n", magnitude)
+	radiusInverse := 1.0 / s.radius
 	normalisedOutwardNormal := ScalarMultiply(radiusInverse, rec.Normal)
-	rec.setFaceNormal(ray, normalisedOutwardNormal)
+	rec.Normal = normalisedOutwardNormal
+	rec.Normal = UnitVector(rec.Normal)
+	// rec.setFaceNormal(ray, normalisedOutwardNormal)
 
 	return true
 }

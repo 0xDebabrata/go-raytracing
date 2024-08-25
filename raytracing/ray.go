@@ -11,10 +11,12 @@ func (ray *Ray) At(t float32) *Vec3 {
 }
 
 func RayColor(ray *Ray) *Color {
+	var rec HitRecord
 	var sphereCenter *Point = New(0, 0, -1)
-	t := hitSphere(sphereCenter, 0.5, ray)
-	if t > 0 {
-		var normal *Vec3 = UnitVector(Add(ray.At(t), ScalarMultiply(-1, sphereCenter)))
+	sphere := Sphere{sphereCenter, 0.5}
+	t := sphere.hit(ray, 0, 100, &rec)
+	if t {
+		var normal *Vec3 = rec.Normal
 		return NewColor(0.5*(normal.x()+1), 0.5*(normal.y()+1), 0.5*(normal.z()+1))
 	}
 
